@@ -1,5 +1,5 @@
 # Schwung-module-build-skill
-Build and troubleshooting modules. 
+Build and troubleshoot modules with Claude.
 
 Abilities
 Besides knowing how to build a module it can also:
