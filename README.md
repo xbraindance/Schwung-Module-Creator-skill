@@ -3,7 +3,7 @@ Build and troubleshoot modules with Claude while reducing token usage.
 
 Abilities
 
-Besides knowing how to build a module with specific requirement, it can also:
+Besides knowing how to build a module with specific requirements, it can also:
 - Clear cache and restart your Ableton Move device. 
 - Access the screen mirroring functionality (requires Claude extension for Chrome) to screenshot the device screen, save the screenshot and view the image for troubleshooting. 
 
