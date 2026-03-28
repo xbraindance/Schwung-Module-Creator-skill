@@ -13,3 +13,6 @@ Besides knowing how to build a module with specific requirement, it can also:
 4. Click "Skills"
 5. Click "+" icon and select "Upload a skill"
 6. Upload the skill.md file.
+
+7. #Requirements
+8. - Google Chrome Claude extension installed to screenshot device screen.
