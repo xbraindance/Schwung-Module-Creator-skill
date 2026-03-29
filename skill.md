@@ -1,4 +1,10 @@
-# Schwung Module Creator Skill
+---
+name: Schwung Module Creator Skill aka SMC
+description: Build and troubleshoot Schwung modules for Ableton Move hardware with complete development workflow
+codeInterpreter: false
+---
+
+# Schwung Module Creator Skill aka SMC
 
 Build and troubleshoot **Schwung modules** for Ableton Move hardware with Claude AI. This skill provides a complete development loop: write code → deploy → test → debug → repeat, all within your Claude session.
 
@@ -11,24 +17,24 @@ Build and troubleshoot **Schwung modules** for Ableton Move hardware with Claude
 ## Quick Navigation
 
 **Just Starting Out?**
-- 👉 Read: [Quick Start](#quick-start) (5 minutes)
-- 📚 UI Patterns: Jump to [UI Development Patterns](#ui-development-patterns)
-- 🎯 Follow: Example workflow below
+- Read: [Quick Start](#quick-start) (5 minutes)
+- UI Patterns: Jump to [UI Development Patterns](#ui-development-patterns)
+- Follow: Example workflow below
 
 **Building UIs?**
-- 🎨 [UI Development Patterns](#ui-development-patterns) — 5+ patterns with code
-- 🐛 [Common UI Bugs & Fixes](#common-ui-bugs--fixes) — 6+ real issues solved
-- 📸 Use `http://move.local:7681` to screenshot and debug visually
-- 📊 [Debugging with Logs](#debugging-with-logs) — View device behavior in real-time
+- [UI Development Patterns](#ui-development-patterns) — 5+ patterns with code
+- [Common UI Bugs & Fixes](#common-ui-bugs--fixes) — 6+ real issues solved
+- Use `http://move.local:7681` to screenshot and debug visually
+- [Debugging with Logs](#debugging-with-logs) — View device behavior in real-time
 
 **Deploying Modules?**
-- 🚀 Jump to: [Build & Deployment](#build--deployment)
-- 📋 Check: [Module Checklist](#module-checklist) at end
+- Jump to: [Build & Deployment](#build--deployment)
+- Check: [Module Checklist](#module-checklist) at end
 
 **Need API Reference?**
-- 📖 Jump to: [JavaScript UI](#javascript-ui-uijs)
-- 🔌 DSP Plugin: [Native DSP Plugin](#native-dsp-plugin-c)
-- 🔗 Signal Chain: [Signal Chain Integration](#signal-chain-integration)
+- Jump to: [JavaScript UI](#javascript-ui-uijs)
+- DSP Plugin: [Native DSP Plugin](#native-dsp-plugin-c)
+- Signal Chain: [Signal Chain Integration](#signal-chain-integration)
 
 ---
 
@@ -37,31 +43,31 @@ Build and troubleshoot **Schwung modules** for Ableton Move hardware with Claude
 This skill makes you a **10x more productive Schwung developer** by automating common tasks:
 
 ### Code Development
-- 📝 Create module structure (module.json, ui.js, DSP plugins)
-- 🔍 Review code for quality and correctness
-- 📚 Reference complete Schwung API documentation (auto-updated from GitHub)
-- 🎯 Implement Signal Chain support with proper parameter metadata
+- Create module structure (module.json, ui.js, DSP plugins)
+- Review code for quality and correctness
+- Reference complete Schwung API documentation (auto-updated from GitHub)
+- Implement Signal Chain support with proper parameter metadata
 
 ### Device Interaction
-- 🚀 Build and deploy modules to your Move device via SSH
-- ✅ Verify code changes on device in real-time
-- 📺 Screenshot the device display (via Chrome Claude extension)
-- 🔧 Run SSH commands to debug, clear cache, restart device
-- 🗂️ Manage files, check logs, enable debugging
+- Build and deploy modules to your Move device via SSH
+- Verify code changes on device in real-time
+- Screenshot the device display (via Chrome Claude extension)
+- Run SSH commands to debug, clear cache, restart device
+- Manage files, check logs, enable debugging
 
 ### Troubleshooting & Debugging
-- 🐛 Diagnose why modules won't load
-- 📊 View live device logs while developing
-- 🎨 Verify display rendering pixel-by-pixel
-- 💾 Check file system and permissions
-- ⚡ Identify MIDI routing and LED issues
+- Diagnose why modules won't load
+- View live device logs while developing
+- Verify display rendering pixel-by-pixel
+- Check file system and permissions
+- Identify MIDI routing and LED issues
 
 ### UI Development Support
-- 🎨 Complete UI pattern gallery with working code examples
-- 📐 Display measurements and safe zones
-- 🐛 Troubleshooting common UI bugs
-- 🎬 Animation and state management patterns
-- ⚡ Performance optimization tips
+- Complete UI pattern gallery with working code examples
+- Display measurements and safe zones
+- Troubleshooting common UI bugs
+- Animation and state management patterns
+- Performance optimization tips
 
 ---
 
@@ -69,10 +75,10 @@ This skill makes you a **10x more productive Schwung developer** by automating c
 
 ### Prerequisites
 
-- ✅ Claude Code (web, desktop, or IDE extension)
-- ✅ Ableton Move device on your network
-- ✅ SSH access configured: `ssh ableton@move.local`
-- ✅ Chrome extension (optional, for screenshot mirroring)
+- Claude Code (web, desktop, or IDE extension)
+- Ableton Move device on your network
+- SSH access configured: `ssh ableton@move.local`
+- Chrome extension (optional, for screenshot mirroring)
 
 ### Installation
 
@@ -564,7 +570,7 @@ print(2, 20, label, 1);
 const ITEM_HEIGHT = 6;
 const y = 15 + (i * 6);
 
-// ✅ CORRECT: 8px spacing (standard)
+// CORRECT: 8px spacing (standard)
 const ITEM_HEIGHT = 8;
 const y = 15 + (i * 8);
 ```
@@ -781,7 +787,7 @@ globalThis.tick = function() {
     print(2, 2, label, 1);
 }
 
-// ✅ DO: Measure once at init
+// DO: Measure once at init
 let labelWidth = 0;
 
 globalThis.init = function() {
@@ -1054,7 +1060,7 @@ if (strcmp(key, "ui_hierarchy") == 0) {
 
 ### Deploy to Device
 
-**⚠️ Ask user before building/deploying!**
+**Ask user before building/deploying!**
 
 ```bash
 scp dist/my-module-module.tar.gz ableton@move.local:/data/UserData/schwung/
