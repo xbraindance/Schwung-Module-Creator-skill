@@ -8,66 +8,61 @@ Build and troubleshoot **Schwung modules** for Ableton Move hardware with Claude
 
 ## What It Does
 
-This skill makes you a **10x more productive Schwung developer** by automating common tasks:
+This skill makes you a ** more productive Schwung developer** by automating common tasks:
 
 ### Code Development
-- 📝 Create module structure (module.json, ui.js, DSP plugins)
-- 🔍 Review code for quality and correctness
-- 📚 Reference complete Schwung API documentation (auto-updated from GitHub)
-- 🎯 Implement Signal Chain support with proper parameter metadata
+- Create module structure (module.json, ui.js, DSP plugins)
+- Review code for quality and correctness
+- Reference complete Schwung API documentation (auto-updated from GitHub)
+- Implement Signal Chain support with proper parameter metadata
 
 ### Device Interaction
-- 🚀 Build and deploy modules to your Move device via SSH
-- ✅ Verify code changes on device in real-time
-- 📺 Screenshot the device display (via Chrome Claude extension)
-- 🔧 Run SSH commands to debug, clear cache, restart device
-- 🗂️ Manage files, check logs, enable debugging
+- Build and deploy modules to your Move device via SSH
+- Verify code changes on device in real-time
+- Screenshot the device display (via Chrome Claude extension)
+- Run SSH commands to debug, clear cache, restart device
+- Manage files, check logs, enable debugging
 
 ### Troubleshooting & Debugging
-- 🐛 Diagnose why modules won't load
-- 📊 View live device logs while developing
-- 🎨 Verify display rendering pixel-by-pixel
-- 💾 Check file system and permissions
-- ⚡ Identify MIDI routing and LED issues
+- Diagnose why modules won't load
+- View live device logs while developing
+- Verify display rendering pixel-by-pixel
+- Check file system and permissions
+- Identify MIDI routing and LED issues
 
 ### UI Development Support
-- 🎨 5 complete UI patterns with working code examples
-- 🐛 6+ common UI bugs with step-by-step fixes
-- 📊 Complete display layout reference with pixel measurements
-- 🎬 Animation and state management patterns
-- ⚡ Performance optimization tips (dirty-flag, efficient rendering)
-- 📝 LED feedback patterns (selection, status indicators)
+- 5 complete UI patterns with working code examples
+- 6+ common UI bugs with step-by-step fixes
+- Complete display layout reference with pixel measurements
+- Animation and state management patterns
+- Performance optimization tips (dirty-flag, efficient rendering)
+- LED feedback patterns (selection, status indicators)
 
 ### Auto-Updates
-- 🔄 Skill automatically syncs with GitHub (optional)
-- 📖 Always has latest API reference and best practices
-- 🛡️ Backs up old version before updating
+- Skill automatically syncs with GitHub (optional)
+- Always has latest API reference and best practices
+- Backs up old version before updating
 
 ---
 
-## Quick Start (5 minutes)
-
-### Prerequisites
-
-- ✅ Claude Code (web, desktop, or IDE extension)
-- ✅ Ableton Move device on your network
-- ✅ SSH access configured: `ssh ableton@move.local` (see [Move SSH Setup](#move-ssh-setup) below)
-- ✅ Chrome extension (optional, for screenshot mirroring)
-
 ### Installation
+
+1. Download `skill.md` from https://github.com/xbraindance/Schwung-Module-Creator-skill/blob/main/skill.md
+
+2. In Claude Code:
+   - Click "Customize" (left navigation)
+   - Click "Skills"
+   - Click "+" and select "Upload a skill"
+   - Upload the `skill.md` file
+
+3. Start a new session and say: "Use SMC" or "run Schwung Module Creator skill"
 
 #### Option A: Auto-Updating Skill (Recommended)
 
 This installs the skill AND enables automatic updates from GitHub.
 
-1. **Clone/download the skill repo:**
-   ```bash
-   cd ~/.claude/skills
-   git clone https://github.com/xbraindance/Schwung-Module-Creator-skill schwung-module-creator
-   cd schwung-module-creator
-   ```
 
-2. **Add the auto-update hook to Claude Code settings** (one-time):
+1. **Add the auto-update hook to Claude Code settings** (one-time):
 
    Open/edit `~/.claude/settings.json` and add this under `hooks`:
    ```json
@@ -82,23 +77,11 @@ This installs the skill AND enables automatic updates from GitHub.
    }
    ```
 
-3. **Test it works:**
+2. **Test it works:**
    ```bash
    bash ~/.claude/skills/schwung-module-creator/scripts/skill-update.sh
    echo "✅ Setup complete!"
    ```
-
-#### Option B: Manual Installation (Simple)
-
-1. Download `skill.md` from https://github.com/xbraindance/Schwung-Module-Creator-skill/blob/main/skill.md
-
-2. In Claude Code:
-   - Click "Customize" (left navigation)
-   - Click "Skills"
-   - Click "+" and select "Upload a skill"
-   - Upload the `skill.md` file
-
-3. Start a new session and say: "Use the Schwung Module Creator skill"
 
 ### First Use
 
