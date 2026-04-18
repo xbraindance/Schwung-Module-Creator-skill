@@ -221,42 +221,6 @@ That's it! Now the skill can SSH into your device automatically.
 
 ---
 
-## Example Workflow
-
-Here's a typical development session:
-
-```
-Claude: "Use Schwung Module Creator skill"
-
-You: "Create a new sound generator module called 'bd-synth' with DSP"
-
-Claude: [Creates module structure, shows module.json and ui.js templates]
-
-You: "Add a cutoff parameter with MIDI CC 74 control"
-
-Claude: [Updates ui.js to decode CC 74 and send it to DSP]
-
-You: "Build and deploy to Move"
-
-Claude: [Compiles C DSP, creates tarball, SSHs to device, extracts]
-
-You: "Take a screenshot of the device"
-
-Claude: [Opens http://move.local:7681, captures OLED display]
-
-You: "The text is truncated. Fix the formatting"
-
-Claude: [Updates ui.js text width calculation, redeploys]
-
-You: "Screenshot again"
-
-Claude: [Shows updated display — text now fits perfectly]
-
-You: "Great! Save this to docs/screenshots/"
-
-Claude: [Saves screenshot locally for your documentation]
-```
-
 All without leaving Claude. 🚀
 
 ---
