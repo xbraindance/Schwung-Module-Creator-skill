@@ -38,11 +38,6 @@ This skill makes you a ** more productive Schwung developer** by automating comm
 - Performance optimization tips (dirty-flag, efficient rendering)
 - LED feedback patterns (selection, status indicators)
 
-### Auto-Updates
-- Skill automatically syncs with GitHub (optional)
-- Always has latest API reference and best practices
-- Backs up old version before updating
-
 ---
 
 ### Installation
