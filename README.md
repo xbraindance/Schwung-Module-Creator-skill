@@ -52,10 +52,6 @@ This skill makes you a ** more productive Schwung developer** by automating comm
 
 3. Start a new session and say: "Use SMC" or "run Schwung Module Creator skill"
 
-#### Option A: Auto-Updating Skill (Recommended)
-
-This installs the skill AND enables automatic updates from GitHub.
-
 ### First Use
 
 In Claude Code, start your Schwung development session:
