@@ -30,10 +30,15 @@ There are **three** DSP APIs. Exporting the wrong entry symbol = silent load fai
 
 Two `api_version`s exist and they are independent:
 
-- The module.json `api_version` field (optional, default 1) is a hint to the host about which init symbol to try first. The host accepts both 1 and 2 (`module_manager.c` checks both `MOVE_PLUGIN_API_VERSION` and `MOVE_PLUGIN_API_VERSION_2`).
+- The module.json `api_version` field (optional, default 1 via `module_manager.c`) is a validation gate — the host accepts both 1 and 2 and rejects anything else. It does **not** select which init symbol the host probes.
 - The DSP struct's `api_version` field is the ABI version of the returned struct, and must match the init symbol you exported.
 
-In practice: if your DSP exports `move_plugin_init_v2` / `move_audio_fx_init_v2`, set module.json `api_version: 2`; if it exports the v1 entry symbols, leave it at 1 (or omit). Freeverb ships as `api_version: 1` in module.json while its DSP exports `move_audio_fx_init_v2` — both work because the host falls back.
+Symbol selection rules:
+
+- **Host-level sound generators** — `module_manager.c` always probes `move_plugin_init_v2` first via `dlsym`, then falls back to `move_plugin_init_v1` if v2 is absent or its `create_instance` fails.
+- **Signal Chain slots** — the chain host (`src/modules/chain/dsp/chain_host.c`) picks the symbol from the slot's `component_type`: sound_generator ⇒ `move_plugin_init_v2`, audio_fx ⇒ `move_audio_fx_init_v2`, midi_fx ⇒ `move_midi_fx_init`.
+
+So in practice, just match your DSP's exported entry symbol to your `component_type` (see the table above). The `api_version` field in module.json can usually be omitted; set it to `2` if you want to be explicit about the struct you return. Freeverb is a real example of an `api_version: 1` module.json whose DSP exports `move_audio_fx_init_v2` — it works because the chain audio_fx loader doesn't consult `api_version` at all.
 
 ### Sound generator / audio FX (v2)
 ```c

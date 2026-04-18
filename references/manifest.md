@@ -28,7 +28,7 @@ Validate locally: `python3 -c 'import json; json.load(open("module.json"))'`
 | `id` | Directory-safe; must match the installed folder name |
 | `name` | Shown in picker |
 | `version` | SemVer |
-| `component_type` | Drives install path + which DSP entry symbol the host looks up |
+| `component_type` | Drives install-path subdirectory and, for chainable modules, which DSP entry symbol the Signal Chain looks up. Without it, the module won't categorize correctly in the menu. |
 
 Optional but recommended:
 
