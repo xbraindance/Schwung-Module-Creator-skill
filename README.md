@@ -56,28 +56,6 @@ This skill makes you a ** more productive Schwung developer** by automating comm
 
 This installs the skill AND enables automatic updates from GitHub.
 
-
-1. **Add the auto-update hook to Claude Code settings** (one-time):
-
-   Open/edit `~/.claude/settings.json` and add this under `hooks`:
-   ```json
-   {
-     "hooks": {
-       "skill:invoke": {
-         "description": "Auto-update Schwung skill from GitHub",
-         "command": "bash ~/.claude/skills/schwung-module-creator/scripts/skill-update.sh",
-         "silent": true
-       }
-     }
-   }
-   ```
-
-2. **Test it works:**
-   ```bash
-   bash ~/.claude/skills/schwung-module-creator/scripts/skill-update.sh
-   echo "✅ Setup complete!"
-   ```
-
 ### First Use
 
 In Claude Code, start your Schwung development session:
@@ -112,8 +90,6 @@ The skill includes comprehensive offline documentation for:
 - Production code examples from real modules
 - Copy-paste ready patterns
 - Real solutions for common bugs
-
-**Auto-Updated:** If you enable the hook, the API reference stays in sync with GitHub's latest docs.
 
 ### 🚀 Device Deployment
 
@@ -188,16 +164,6 @@ Jump to any section directly:
 - Have a UI bug? → [Common UI Bugs & Fixes](#common-ui-bugs--fixes)
 - Need to optimize? → [UI Development Tips](#ui-development-tips)
 - Debugging issues? → [Debugging with Logs](#debugging-with-logs)
-
-### 🔄 Auto-Update Capability
-
-Once you set up the hook:
-- **Automatic:** Checks GitHub hourly
-- **Smart:** Only updates if changed (uses SHA256 hash comparison)
-- **Fast:** <1ms after first check (no HTTP overhead)
-- **Safe:** Backs up previous version before updating
-- **Silent:** Runs in background, no notifications
-- **Graceful:** Continues if GitHub is unreachable
 
 ---
 
