@@ -60,7 +60,57 @@ ssh ableton@move.local 'tar -xzf /data/UserData/my-module-module.tar.gz \
 | `tool` | `.../modules/tools/` |
 | `overtake` | `.../modules/overtake/` |
 
-If the tarball has a wrapper folder, use `--strip-components=1` or rebuild flat.
+The packaged tarball is `<id>/...` (one top-level folder named for the module id, containing
+`module.json`). Extracting into `.../audio_fx/` therefore lands it at `.../audio_fx/<id>/` —
+correct, no `--strip-components` needed. Do **not** "rebuild flat": the Schwung Manager's
+installer depends on that single wrapper folder (see next section).
+
+## Schwung Manager install + Module Store catalog
+
+Most users don't SSH — they install via the **Schwung Manager** web UI (`http://move.local:7700`
+→ **Modules**). Three paths, all of which end up running the *same* packaged tarball:
+
+- **Custom → from GitHub URL** — user pastes `owner/repo`. The Manager fetches
+  `https://raw.githubusercontent.com/owner/repo/<main|master>/release.json`, then downloads its
+  `download_url` (a release asset) and installs it.
+- **Custom → from file** — user uploads a `.tar.gz`.
+- **Catalog** — one-tap install for listed modules (see below).
+
+**Installer tarball contract (this is the gotcha).** The Manager does, in effect:
+`tar -xzf upload -C tmp; moduleDir = tmp/<first top-level entry>; read moduleDir/module.json`.
+So the archive **must be a single top-level folder containing `module.json` at its root**
+(`<id>/module.json` + `<id>/<id>.so` + …). It does **not** search recursively.
+
+> **Error: "No module.json found in tarball".** The first top-level entry had no `module.json`
+> in it. Causes, most common first:
+> 1. User uploaded GitHub's auto-generated **"Source code (tar.gz)"** (`repo-<ver>/` with
+>    `module.json` down in `src/`). Ship and point them at the packaged `<id>-module.tar.gz`
+>    **release asset**, never the source archive.
+> 2. Tarball is **flat** (files at the root, no `<id>/` wrapper) → fix the build to wrap.
+> 3. Extra top-level entry sorts before `<id>/` — e.g. **macOS `tar` adds `._*` / `PaxHeader`
+>    junk** from xattrs. Build the release tarball on Linux/CI, or `COPYFILE_DISABLE=1 tar …`.
+
+**release.json** (repo root, on the default branch) is what the URL-installer and the catalog
+read for version + asset — *not* the GitHub releases API:
+```json
+{ "version": "0.19.0",
+  "download_url": "https://github.com/owner/repo/releases/download/v0.19.0/<id>-module.tar.gz" }
+```
+Bump `module.json` **and** `release.json` together, then push a `vX.Y.Z` tag so CI builds the
+`.so`, packs `<id>-module.tar.gz`, and publishes the Release. Between merge and tag, `release.json`
+points at a not-yet-published asset — tag promptly or installs 404.
+
+**Getting into the catalog (Module Store).** The store reads
+`https://raw.githubusercontent.com/charlesvestal/schwung/main/module-catalog.json`. Add an entry
+via a **PR to `charlesvestal/schwung`** (third-party modules are welcome — many are external repos):
+```json
+{ "id": "your_id", "name": "Your Name", "description": "short", "author": "you",
+  "component_type": "audio_fx", "github_repo": "owner/repo", "default_branch": "main",
+  "asset_name": "your_id-module.tar.gz", "min_host_version": "0.3.0" }
+```
+`id` must match `module.json`'s `id` (used to match installed modules for updates). `0.3.0` is the
+de-facto floor for `audio_fx`/`sound_generator` peers. The store then resolves the version live
+from your repo's `release.json`, so the catalog entry never needs re-touching on each release.
 
 ## Reload
 
@@ -137,7 +187,11 @@ ssh ableton@move.local 'grep -n "some_unique_token" /data/UserData/schwung/modul
 
 - Install path doesn't match `component_type` → module silently missing from picker
 - `.so` not executable after tar extraction → `chmod +x dsp.so` or fix tarball perms on the build side
-- Tarball has a wrapper folder → extract with `--strip-components=1` or rebuild flat
+- Manager upload fails "No module.json found in tarball" → wrong archive (GitHub "Source code",
+  or flat, or macOS `._*`/PaxHeader junk sorting first). Must be one `<id>/` folder w/ module.json
+  at its root — see "Schwung Manager install" above
+- Manual `tar -C .../audio_fx/` double-nested to `<id>/<id>/` → you extracted a wrapped tarball into
+  `.../audio_fx/<id>/`; extract into `.../audio_fx/` instead (the wrapper IS the `<id>/` dir)
 - UI edit not visible → try `host_rescan_modules()`, then full reboot; also check `mtime` on device matches local
 - Changes to `.so` but no reboot → old DSP is still dlopen'd in the host
 - Log file grew to gigabytes → truncate it
