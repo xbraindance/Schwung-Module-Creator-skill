@@ -31,7 +31,7 @@ Build and troubleshoot **Schwung modules** for Ableton Move. Dev loop: write →
 | Chainable modules, Signal Chain UI shims, MIDI FX chaining, `chain_params` wiring | [references/signal-chain.md](references/signal-chain.md) |
 | `host_*` functions, file I/O, module lifecycle, sampler, TTS, system commands | [references/host-api.md](references/host-api.md) |
 | Audio dropouts, SPI budget, FIFO priority, CPU pinning, child-process scheduling | [references/realtime.md](references/realtime.md) |
-| Build, deploy, SSH, logs, display mirror, cache invalidation, reboot-vs-rescan | [references/deploy-debug.md](references/deploy-debug.md) |
+| Build, deploy, SSH, logs, display mirror, cache invalidation, reboot-vs-rescan; **Schwung Manager install, "No module.json found in tarball", Module Store catalog submission, release.json** | [references/deploy-debug.md](references/deploy-debug.md) |
 | LD_PRELOAD shim, SPI mailbox, struct layout, fork hygiene (**only if forking Schwung**) | [references/architecture.md](references/architecture.md) |
 
 ## Knowledge base
