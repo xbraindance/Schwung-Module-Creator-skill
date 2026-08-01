@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "TestMath.h"
+
 namespace bdvhs::test
 {
 
@@ -44,7 +46,7 @@ inline std::vector<float> silence (size_t n)
 inline std::vector<float> sine (size_t n, float freqHz, double sampleRate, float amplitude = 0.5f)
 {
     std::vector<float> out (n);
-    const double w = 2.0 * M_PI * static_cast<double> (freqHz) / sampleRate;
+    const double w = 2.0 * kPiD * static_cast<double> (freqHz) / sampleRate;
     for (size_t i = 0; i < n; ++i)
         out[i] = amplitude * static_cast<float> (std::sin (w * static_cast<double> (i)));
     return out;
@@ -97,7 +99,7 @@ inline std::vector<float> logSweep (size_t n, float startHz, float endHz, double
     for (size_t i = 0; i < n; ++i)
     {
         const double t = static_cast<double> (i) / sampleRate;
-        const double phase = 2.0 * M_PI * static_cast<double> (startHz) * duration / k
+        const double phase = 2.0 * kPiD * static_cast<double> (startHz) * duration / k
                              * (std::exp (k * t / duration) - 1.0);
         out[i] = amplitude * static_cast<float> (std::sin (phase));
     }
@@ -117,7 +119,7 @@ inline std::vector<float> percussive (size_t n, double sampleRate, float bpm = 1
         const size_t inBeat = (period > 0) ? (i % period) : i;
         const double t = static_cast<double> (inBeat) / sampleRate;
         const float env = static_cast<float> (std::exp (-t * 14.0));
-        const float tone = static_cast<float> (std::sin (2.0 * M_PI * 180.0 * t))
+        const float tone = static_cast<float> (std::sin (2.0 * kPiD * 180.0 * t))
                            + 0.4f * rng.nextBipolar() * static_cast<float> (std::exp (-t * 60.0));
         out[i] = 0.6f * env * tone;
     }

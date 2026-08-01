@@ -6,6 +6,10 @@ target_include_directories(bd_vhs_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 # -Wmismatched-new-delete fires on the allocation watchdog's global operator
 # new/delete pair: GCC inlines them and loses track of the fact that they are
 # matched. The pairing is correct -- malloc in new, free in delete.
+# The WAV dumper uses fopen; MSVC's "consider fopen_s" advice is not portable.
+target_compile_definitions(bd_vhs_tests PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>)
+
 target_compile_options(bd_vhs_tests PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall -Wextra>
     $<$<CXX_COMPILER_ID:GNU>:-Wno-mismatched-new-delete>

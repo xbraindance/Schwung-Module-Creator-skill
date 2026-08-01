@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <vector>
 
+#include "TestMath.h"
+
 namespace bdvhs::test
 {
 
@@ -82,13 +84,13 @@ inline float goertzelAmplitude (const std::vector<float>& x, float freqHz, doubl
         return 0.0f;
 
     const size_t n = x.size() - from;
-    const double w = 2.0 * M_PI * static_cast<double> (freqHz) / sampleRate;
+    const double w = 2.0 * kPiD * static_cast<double> (freqHz) / sampleRate;
     const double coeff = 2.0 * std::cos (w);
 
     double s1 = 0.0, s2 = 0.0;
     for (size_t i = 0; i < n; ++i)
     {
-        const double window = 0.5 - 0.5 * std::cos (2.0 * M_PI * static_cast<double> (i)
+        const double window = 0.5 - 0.5 * std::cos (2.0 * kPiD * static_cast<double> (i)
                                                     / static_cast<double> (n - 1));
         const double s = static_cast<double> (x[from + i]) * window + coeff * s1 - s2;
         s2 = s1;
