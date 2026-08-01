@@ -122,6 +122,58 @@ real deduction stakes, no fail state — the takeaway is that the editor
 fantasy needs a genuine detective game wrapped around it, not just a walking
 sim with better staging.
 
+**Art direction: point cloud / photogrammetry, not rendered environments.**
+Every scene is presented as a colored point cloud — LiDAR/photogrammetry
+scan aesthetic, luminous points floating in pure black, no solid geometry,
+no textures. This isn't a stylistic add-on; it does real mechanical and
+thematic work:
+
+- **It sells the fiction for free.** A point cloud against black reads
+  instantly as "reconstructed data," not "a place." The player never
+  mistakes the memory for reality, which is exactly the distinction the
+  whole game hinges on — you are never *in* the event, you are inside its
+  *recording*.
+- **Chromatic aberration = distortion, made visible.** Rather than a
+  post-process filter applied uniformly, aberration intensity is driven by
+  *how warped that memory is at that instant* — a calm, accurate stretch of
+  a recording renders clean and tightly registered; a moment the recorder
+  was frightened or lying about smears color channels apart, edges
+  fringing red/cyan or magenta/green. The player learns to *read*
+  aberration as an evidence signal, not just ambience — heavy fringing
+  becomes a clue that something at that instant doesn't match the recorded
+  person's account.
+- **Palette encodes layer, not just scene.** Point color temperature
+  reassigns per active layer rather than staying naturalistic: thermal
+  layer runs a warm magenta/orange/gold palette (heat-map-as-humans-and-
+  objects, per the reference mood — hot bodies and recently touched things
+  glow orange against cool purple/blue structure); EM layer runs cool
+  cyan/violet with points appearing only around active devices and wiring;
+  the emotional layer desaturates everything *except* the recorder's
+  affect spikes, which bloom in a single hot accent color at the exact
+  moment they occur. Visual/audio layers stay closer to a naturalistic
+  cool blue-green/tan point-cloud palette (per the landscape reference) so
+  the "warped" layers read as a deliberate departure, not just a different
+  filter.
+- **Density communicates confidence.** A moment reconstructed from a
+  clear, confident memory renders as a dense, stable cloud. A moment the
+  recorder barely registered, or that's contested by another POV, renders
+  sparse and slightly noisy/flickering — before the player even isolates a
+  layer, cloud density is already hinting at which instants are worth
+  freezing.
+- **Cheap to build relative to the payoff.** Point-cloud rendering is
+  computationally forgiving (no lighting/shadow/texture budget to fight),
+  which matters directly for the multi-POV authoring cost flagged under
+  Risks below — the same underlying capture can be re-colored and
+  re-noised per POV and per layer without re-modeling geometry, which is
+  what makes rendering one event several distorted ways actually
+  affordable for a small team.
+- **VR-specific payoff.** In the frozen, full-scale, walkable state, this
+  aesthetic solves a problem VR walking-sims usually fight: dense, glowing
+  points floating in true black *are* the environment, with no floor/wall
+  collision fakery to hide, and up-close inspection (getting your face
+  right next to a suspended point cluster) reads as a *feature* rather than
+  a graphical seam the way it would in a rendered scene.
+
 **Shape & scope.** Premium indie ($20–30), naturally episodic (one case =
 one episode/DLC). Recommended v1 slice: **one case, three memories of one
 event, three layers (visual / audio / emotional), screen-only.** Small
