@@ -1,0 +1,46 @@
+BD-VHS
+Copyright (C) 2026 xbraindance
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+-------------------------------------------------------------------------------
+ACTION REQUIRED BEFORE DISTRIBUTING
+-------------------------------------------------------------------------------
+
+The full text of the GNU Affero General Public License version 3 must be
+appended below this line. It could not be fetched automatically because
+gnu.org is not reachable from the environment this file was written in.
+
+    curl -o AGPL-3.0.txt https://www.gnu.org/licenses/agpl-3.0.txt
+    cat AGPL-3.0.txt >> LICENSE
+
+The AGPL applies to this directory's `plugin/` subtree, which links JUCE.
+JUCE 8 is dual-licensed AGPLv3-or-commercial, and BD-VHS sets
+JUCE_DISPLAY_SPLASH_SCREEN=0, which is only permitted under the AGPL or a paid
+JUCE licence. Choosing the AGPL is what makes that setting lawful here.
+
+The DSP core in `core/` has no JUCE dependency and is MIT licensed instead --
+see core/LICENSE. That split is deliberate: the core stays reusable in projects
+that cannot take on the AGPL.
+
+
+-------------------------------------------------------------------------------
+TRADEMARK NOTICE
+-------------------------------------------------------------------------------
+
+BD-VHS is an original effect inspired by the sound of tape and video-cassette
+degradation. It is not affiliated with, endorsed by, or derived from any pedal
+manufacturer's product, and contains no third-party trademarks. The machine
+profiles are designed by ear from the characteristic response of each class of
+recording machine, not measured from any specific product.

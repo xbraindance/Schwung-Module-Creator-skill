@@ -347,3 +347,12 @@ To check for updates manually:
 ```bash
 bash ~/.claude/skills/schwung-module-creator/scripts/skill-update.sh
 ```
+
+---
+
+## Also in this repository
+
+**[`plugins/bd-vhs/`](plugins/bd-vhs/)** — BD-VHS, a tape and video-cassette
+degradation audio plugin (VST3 / CLAP / AU). Unrelated to the Schwung skill
+above; it shares the repository but nothing else. See its
+[README](plugins/bd-vhs/README.md) for build instructions.

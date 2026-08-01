@@ -1,0 +1,156 @@
+name: BD-VHS
+
+on:
+  push:
+    paths:
+      - 'plugins/bd-vhs/**'
+      - '.github/workflows/bd-vhs.yml'
+  pull_request:
+    paths:
+      - 'plugins/bd-vhs/**'
+      - '.github/workflows/bd-vhs.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: bd-vhs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The fast gate. Needs no system dependencies whatsoever, because the DSP
+  # core has none -- so this runs in about a minute and is the job that
+  # actually catches DSP regressions.
+  core-tests:
+    name: core tests (${{ matrix.name }})
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: release
+            flags: ''
+          - name: asan+ubsan
+            flags: '-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Configure
+        run: >
+          cmake -S plugins/bd-vhs -B build -G Ninja
+          -DBDVHS_BUILD_CORE_ONLY=ON
+          -DCMAKE_BUILD_TYPE=Release
+          ${{ matrix.flags }}
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+        env:
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+
+  build:
+    name: ${{ matrix.name }}
+    needs: core-tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-22.04
+            artifact: bd-vhs-linux-x86_64
+            cmake_extra: ''
+          - name: macos
+            os: macos-14
+            artifact: bd-vhs-macos-universal
+            cmake_extra: '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
+          - name: windows
+            os: windows-2022
+            artifact: bd-vhs-windows-x64
+            cmake_extra: ''
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Only what we actually enable. No libcurl (JUCE_USE_CURL=0), no
+      # webkit2gtk (JUCE_WEB_BROWSER=0), no ALSA (Standalone stays off).
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build \
+            libfreetype-dev libfontconfig1-dev \
+            libx11-dev libxcomposite-dev libxcursor-dev libxext-dev \
+            libxinerama-dev libxrandr-dev libxrender-dev
+
+      # A shallow JUCE clone dominates a cold build.
+      - name: Cache fetched dependencies
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: bdvhs-deps-${{ runner.os }}-${{ hashFiles('plugins/bd-vhs/CMakeLists.txt') }}
+
+      - name: Configure
+        run: >
+          cmake -S plugins/bd-vhs -B build
+          -DCMAKE_BUILD_TYPE=Release
+          -DBDVHS_COPY_AFTER_BUILD=OFF
+          "${{ matrix.cmake_extra }}"
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: List artefacts
+        shell: bash
+        run: find build -name '*.vst3' -o -name '*.clap' -o -name '*.component' | sort
+
+      # auval is the only meaningful gate on the Audio Unit, and it exists
+      # nowhere but macOS. Note it validates the arm64 slice only on this
+      # runner.
+      - name: Validate Audio Unit (auval)
+        if: runner.os == 'macOS'
+        run: |
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R build/plugin/BDVHS_artefacts/Release/AU/BD-VHS.component \
+                ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar || true
+          auval -v aufx Bvhs Xbdn
+
+      - name: Validate VST3 (pluginval)
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ runner.os }}" in
+            Linux)   ZIP=pluginval_Linux.zip;   BIN=./pluginval ;;
+            macOS)   ZIP=pluginval_macOS.zip;   BIN=./pluginval.app/Contents/MacOS/pluginval ;;
+            Windows) ZIP=pluginval_Windows.zip; BIN=./pluginval.exe ;;
+          esac
+          curl -sSL -o pluginval.zip \
+            "https://github.com/Tracktion/pluginval/releases/download/v1.0.3/$ZIP"
+          unzip -q pluginval.zip
+          chmod +x "$BIN" 2>/dev/null || true
+
+          VST3=$(find build -name '*.vst3' | head -1)
+          echo "validating $VST3"
+
+          # pluginval instantiates an editor, so it needs a display on Linux
+          # even though this plugin does not provide one.
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            sudo apt-get install -y xvfb
+            xvfb-run -a "$BIN" --strictness-level 5 --validate "$VST3"
+          else
+            "$BIN" --strictness-level 5 --validate "$VST3"
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            build/plugin/BDVHS_artefacts/Release/VST3/**
+            build/plugin/BDVHS_artefacts/Release/CLAP/**
+            build/plugin/BDVHS_artefacts/Release/AU/**
+          if-no-files-found: error
